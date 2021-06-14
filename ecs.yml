@@ -27,7 +27,7 @@ Resources:
             ExecutionRoleArn: arn:aws:iam::008044510588:role/ecsTaskExecutionRole
             ContainerDefinitions:           
                 - Name: cloud-cont
-                  Image: 008044510588.dkr.ecr.ap-south-1.amazonaws.com/crudapplication:latest
+                  Image: 008044510588.dkr.ecr.ap-south-1.amazonaws.com/bamboo-ecr:latest
                   PortMappings:
                     - ContainerPort: 8080
                       HostPort: 8080
