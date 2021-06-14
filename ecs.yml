@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A sample template
+Parameters:
+    SecurityGroupA:
+        Description: SecurityGroups
+        Type: String
+        Default: sg-05a507499c09db464
+    SubnetA:
+        Description: The IDs of the subnets associated with the task or service.
+        Type: String
+        Default: subnet-ba2a27d2
+    SubnetB:
+        Description: The IDs of the subnets associated with the task or service.
+        Type: String
+        Default: subnet-6a2aaf11
+Resources:
+    ECSClusters1:
+        Type: AWS::ECS::Cluster
+        Properties: 
+          ClusterName: fargate-cluster
+    taskdefinition2:
+        Type: AWS::ECS::TaskDefinition
+        Properties:  
+            NetworkMode: awsvpc        
+            Cpu: 512   
+            Memory: 1024
+            ExecutionRoleArn: arn:aws:iam::008044510588:role/ecsTaskExecutionRole
+            ContainerDefinitions:           
+                - Name: cloud-cont
+                  Image: 008044510588.dkr.ecr.ap-south-1.amazonaws.com/crudapplication:latest
+                  PortMappings:
+                    - ContainerPort: 8080
+                      HostPort: 8080
+                      Protocol: tcp            
+    service:
+        Type: AWS::ECS::Service
+        Properties:
+            ServiceName: sample-service
+            LaunchType: FARGATE
+            DesiredCount: 1
+            TaskDefinition: !Ref taskdefinition2
+            Cluster: !Ref ECSClusters1
+            NetworkConfiguration:
+                AwsvpcConfiguration: 
+                    AssignPublicIp: ENABLED                
+                    SecurityGroups: 
+                        - !Ref SecurityGroupA             
+                    Subnets:
+                         - !Ref SubnetA
+                         - !Ref SubnetB
+            
