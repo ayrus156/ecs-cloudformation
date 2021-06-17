@@ -14,11 +14,11 @@ Parameters:
         Type: String
         Default: subnet-6a2aaf11
 Resources:
-    ECSClusters1:
+    ecsCluster:
         Type: AWS::ECS::Cluster
         Properties: 
           ClusterName: fargate-cluster
-    taskdefinition2:
+    taskdeff:
         Type: AWS::ECS::TaskDefinition
         Properties:  
             NetworkMode: awsvpc        
@@ -38,8 +38,8 @@ Resources:
             ServiceName: sample-service
             LaunchType: FARGATE
             DesiredCount: 1
-            TaskDefinition: !Ref taskdefinition2
-            Cluster: !Ref ECSClusters1
+            TaskDefinition: !Ref taskdeff
+            Cluster: !Ref ecsCluster
             NetworkConfiguration:
                 AwsvpcConfiguration: 
                     AssignPublicIp: ENABLED                
